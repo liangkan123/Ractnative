@@ -21,19 +21,19 @@ type PendingCommand = {
   metadata: RequestMetadata,
 };
 
-type DeviceMetadata = Readonly<{
+type DeviceMetadata = $ReadOnly<{
   appId: string,
   deviceId: string,
   deviceName: string,
 }>;
 
-type RequestMetadata = Readonly<{
+type RequestMetadata = $ReadOnly<{
   pageId: string | null,
   frontendUserAgent: string | null,
   prefersFuseboxFrontend: boolean | null,
 }>;
 
-type ResponseMetadata = Readonly<{
+type ResponseMetadata = $ReadOnly<{
   pageId: string | null,
   frontendUserAgent: string | null,
   prefersFuseboxFrontend: boolean | null,
@@ -68,7 +68,7 @@ class DeviceEventReporter {
   }
 
   logRequest(
-    req: Readonly<{id: number, method: string, ...}>,
+    req: $ReadOnly<{id: number, method: string, ...}>,
     origin: 'debugger' | 'proxy',
     metadata: RequestMetadata,
   ): void {
@@ -164,7 +164,7 @@ class DeviceEventReporter {
 
   logConnection(
     connectedEntity: 'debugger',
-    metadata: Readonly<{
+    metadata: $ReadOnly<{
       pageId: string,
       frontendUserAgent: string | null,
     }>,
@@ -228,6 +228,12 @@ class DeviceEventReporter {
       deviceName: this.#metadata.deviceName,
       pageId: null,
       connectionUptime: this.#deviceConnectedTimestamp - Date.now(),
+    });
+  }
+
+  logFuseboxConsoleNotice(): void {
+    this.#eventReporter.logEvent({
+      type: 'fusebox_console_notice',
     });
   }
 

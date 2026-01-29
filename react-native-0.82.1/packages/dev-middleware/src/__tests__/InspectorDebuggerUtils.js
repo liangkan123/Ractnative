@@ -22,17 +22,11 @@ export class DebuggerAgent {
   #ws: ?WebSocket;
   #readyPromise: Promise<void>;
 
-  constructor(
-    url: string,
-    signal?: AbortSignal,
-    headers?: ?{[string]: unknown},
-  ) {
+  constructor(url: string, signal?: AbortSignal, hostHeader?: ?string) {
     const ws = new WebSocket(url, {
       // The mock server uses a self-signed certificate.
       rejectUnauthorized: false,
-      ...(headers != null
-        ? {headers}
-        : {headers: {Origin: 'http://localhost:8081'}}),
+      ...(hostHeader != null ? {headers: {Host: hostHeader}} : {}),
     });
     this.#ws = ws;
     ws.on('message', data => {
@@ -122,9 +116,9 @@ export class DebuggerMock extends DebuggerAgent {
 export async function createDebuggerMock(
   url: string,
   signal: AbortSignal,
-  headers?: ?{[string]: unknown},
+  hostHeader?: ?string,
 ): Promise<DebuggerMock> {
-  const debuggerMock = new DebuggerMock(url, signal, headers);
+  const debuggerMock = new DebuggerMock(url, signal, hostHeader);
   await debuggerMock.ready();
   return debuggerMock;
 }

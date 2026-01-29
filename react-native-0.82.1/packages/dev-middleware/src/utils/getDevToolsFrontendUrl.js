@@ -17,7 +17,7 @@ export default function getDevToolsFrontendUrl(
   experiments: Experiments,
   webSocketDebuggerUrl: string,
   devServerUrl: string,
-  options?: Readonly<{
+  options?: $ReadOnly<{
     relative?: boolean,
     launchId?: string,
     telemetryInfo?: string,
@@ -65,7 +65,7 @@ export default function getDevToolsFrontendUrl(
 function getWsParam({
   webSocketDebuggerUrl,
   devServerUrl,
-}: Readonly<{
+}: $ReadOnly<{
   webSocketDebuggerUrl: string,
   devServerUrl: string,
 }>): {

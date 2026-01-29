@@ -95,7 +95,7 @@ export default class CdpDebugLogging {
           );
         }
         if (timeout == null) {
-          timeout = setTimeout<ReadonlyArray<CDPMessageDestination>>(() => {
+          timeout = setTimeout<$ReadOnlyArray<CDPMessageDestination>>(() => {
             debug(
               '%s %s CDP messages of size %s MB %s in the last %ss.',
               getCDPLogPrefix(destination),

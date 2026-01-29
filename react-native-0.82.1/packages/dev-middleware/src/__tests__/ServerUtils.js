@@ -16,6 +16,7 @@ import connect from 'connect';
 import http from 'http';
 import https from 'https';
 import * as selfsigned from 'selfsigned';
+import url from 'url';
 
 type CreateDevMiddlewareOptions = Parameters<typeof createDevMiddleware>[0];
 type CreateServerOptions = {
@@ -24,7 +25,7 @@ type CreateServerOptions = {
 };
 type ConnectApp = ReturnType<typeof connect>;
 
-export function withServerForEachTest(options: CreateServerOptions): Readonly<{
+export function withServerForEachTest(options: CreateServerOptions): $ReadOnly<{
   serverBaseUrl: string,
   serverBaseWsUrl: string,
   app: ConnectApp,
@@ -108,7 +109,7 @@ export async function createServer(options: CreateServerOptions): Promise<{
       });
       app.use(middleware);
       httpServer.on('upgrade', (request, socket, head) => {
-        const {pathname} = new URL(request.url, 'http://example.com');
+        const {pathname} = url.parse(request.url);
         if (pathname != null && websocketEndpoints[pathname]) {
           websocketEndpoints[pathname].handleUpgrade(
             request,

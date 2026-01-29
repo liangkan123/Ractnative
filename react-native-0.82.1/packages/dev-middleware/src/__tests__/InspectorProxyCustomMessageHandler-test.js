@@ -202,7 +202,6 @@ describe('inspector proxy device message middleware', () => {
           event: 'wrappedEvent',
           payload: {
             pageId: page.id,
-            sessionId: expect.any(String),
             wrappedEvent: JSON.stringify({id: 1}),
           },
         }),
@@ -362,11 +361,7 @@ describe('inspector proxy device message middleware', () => {
       await until(() =>
         expect(device.wrappedEvent).toBeCalledWith({
           event: 'wrappedEvent',
-          payload: {
-            pageId: page.id,
-            sessionId: expect.any(String),
-            wrappedEvent: JSON.stringify({id: 1337}),
-          },
+          payload: {pageId: page.id, wrappedEvent: JSON.stringify({id: 1337})},
         }),
       );
       // Ensure the first message was not received by the device

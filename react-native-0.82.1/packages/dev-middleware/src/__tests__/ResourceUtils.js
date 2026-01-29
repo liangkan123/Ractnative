@@ -8,7 +8,7 @@
  * @format
  */
 
-export function withAbortSignalForEachTest(): Readonly<{signal: AbortSignal}> {
+export function withAbortSignalForEachTest(): $ReadOnly<{signal: AbortSignal}> {
   const ref: {signal: AbortSignal} = {
     // $FlowFixMe[unsafe-getters-setters]
     get signal() {

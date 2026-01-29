@@ -73,16 +73,19 @@ const DefaultBrowserLauncher = {
     url: string,
     windowKey: string,
   ): Promise<void> {
-    return await unstable_spawnDebuggerShellWithArgs([
-      '--frontendUrl=' + url,
-      '--windowKey=' + windowKey,
-    ]);
+    return await unstable_spawnDebuggerShellWithArgs(
+      ['--frontendUrl=' + url, '--windowKey=' + windowKey],
+      {
+        mode: 'detached',
+        flavor: process.env.RNDT_DEV === '1' ? 'dev' : 'prebuilt',
+      },
+    );
   },
 
-  async unstable_prepareFuseboxShell(
-    prebuiltBinaryPath?: ?string,
-  ): Promise<DebuggerShellPreparationResult> {
-    return await unstable_prepareDebuggerShell();
+  async unstable_prepareFuseboxShell(): Promise<DebuggerShellPreparationResult> {
+    return await unstable_prepareDebuggerShell(
+      process.env.RNDT_DEV === '1' ? 'dev' : 'prebuilt',
+    );
   },
 };
 
