@@ -43,9 +43,8 @@ class HostAgent final {
       const FrontendChannel& frontendChannel,
       HostTargetController& targetController,
       HostTargetMetadata hostMetadata,
-      SessionState& sessionState,
-      VoidExecutor executor,
-      std::optional<tracing::TraceRecordingState> traceRecordingToEmit);
+      SessionState &sessionState,
+      VoidExecutor executor);
 
   HostAgent(const HostAgent&) = delete;
   HostAgent(HostAgent&&) = delete;
@@ -68,6 +67,25 @@ class HostAgent final {
    * currently no active instance.
    */
   void setCurrentInstanceAgent(std::shared_ptr<InstanceAgent> agent);
+
+  /**
+   * Returns whether this HostAgent is part of the session that has an active
+   * Fusebox client connecte, i.e. with Chrome DevTools Frontend fork for React
+   * Native.
+   */
+  bool hasFuseboxClientConnected() const;
+
+  /**
+   * Emits the trace recording that was captured externally, not via the
+   * CDP-initiated request.
+   */
+  void emitExternalTraceRecording(tracing::TraceRecordingState traceRecording) const;
+
+  /**
+   * Emits a system state changed event when the number of ReactHost instances
+   * changes.
+   */
+  void emitSystemStateChanged(bool isSingleHost) const;
 
  private:
   // We use the private implementation idiom to ensure this class has the same

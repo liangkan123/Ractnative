@@ -20,6 +20,12 @@ class InspectorFlags {
   static InspectorFlags& getInstance();
 
   /**
+   * Flag determining if the inspector backend should strictly assert that only
+   * a single host is registered.
+   */
+  bool getAssertSingleHostState() const;
+
+  /**
    * Flag determining if the modern CDP backend should be enabled.
    */
   bool getFuseboxEnabled() const;
@@ -38,7 +44,7 @@ class InspectorFlags {
   /**
    * Flag determining if the V2 in-app Performance Monitor is enabled.
    */
-  bool getPerfMonitorV2Enabled() const;
+  bool getPerfIssuesEnabled() const;
 
   /**
    * Forcibly disable the main `getFuseboxEnabled()` flag. This should ONLY be
@@ -54,11 +60,12 @@ class InspectorFlags {
 
  private:
   struct Values {
+    bool assertSingleHostState;
     bool fuseboxEnabled;
     bool isProfilingBuild;
     bool networkInspectionEnabled;
-    bool perfMonitorV2Enabled;
-    bool operator==(const Values&) const = default;
+    bool perfIssuesEnabled;
+    bool operator==(const Values &) const = default;
   };
 
   InspectorFlags() = default;

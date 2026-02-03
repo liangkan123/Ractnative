@@ -7,6 +7,8 @@
 
 #include "InspectorInterfaces.h"
 
+#include "InspectorFlags.h"
+
 #include <cassert>
 #include <list>
 #include <mutex>
